@@ -1,8 +1,8 @@
 //  Created by Marcin Krzyzanowski
 
-#if canImport(AppKit)
+#if os(macOS) && !targetEnvironment(macCatalyst)
 import AppKit
-#elseif canImport(UIKit)
+#elseif os(iOS) || os(visionOS)
 import UIKit
 #endif
 
