@@ -15,6 +15,13 @@ NSRange(_ textRange: NSTextRange, in textContentManager: NSTextContentManager)
 NSRange(_ textLocation: NSTextLocation, in textContentManager: NSTextContentManager)
 ``` 
 
+### NSTextRange Additions
+
+NSTextRange(_ nsRange: NSRange, in textContentManager: NSTextContentManager)
+
+func length(in textContentManager: NSTextContentManager) -> Int
+func clamped(to textRange: NSTextRange) -> NSTextRange?
+
 ### NSTextContentManager Additions
 
 ```swift
@@ -41,6 +48,33 @@ func enumerateTextLayoutFragments(in range: NSTextRange, options: NSTextLayoutFr
 
 var insertionPointLocations: [NSTextLocation]
 var insertionPointSelections: [NSTextSelection]
+```
+
+### NSTextLayoutFragment Additions
+
+```swift
+func textLineFragment(at location: NSTextLocation, in textContentManager: NSTextContentManager? = nil) -> NSTextLineFragment?
+func textLineFragment(at location: CGPoint, in textContentManager: NSTextContentManager? = nil) -> NSTextLineFragment?
+```
+
+### NSTextLineFragment Additions
+
+```swift
+textRange(in textLayoutFragment: NSTextLayoutFragment) -> NSTextRange?
+
+var isExtraLineFragment: Bool
+```
+
+### NSTextLocation Addition
+
+```swift
+static func == (lhs: Self, rhs: Self) -> Bool
+static func != (lhs: Self, rhs: Self) -> Bool
+static func < (lhs: Self, rhs: Self) -> Bool
+static func <= (lhs: Self, rhs: Self) -> Bool
+static func > (lhs: Self, rhs: Self) -> Bool
+static func >= (lhs: Self, rhs: Self) -> Bool
+static func ~= (lhs: Self, rhs: Self) -> Bool
 ```
 
 ## Contributing and Collaboration

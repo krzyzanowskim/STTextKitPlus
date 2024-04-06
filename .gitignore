@@ -1,6 +1,7 @@
 .build/
 .swiftpm/
 Package.resolved
+.DS_Store
 
 ## User settings
 xcuserdata/
