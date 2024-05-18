@@ -77,6 +77,13 @@ extension NSTextLayoutManager {
 }
 
 extension NSTextLayoutManager {
+    
+    /// Typographic bounds of the range.
+    /// - Parameter textRange: The range.
+    /// - Returns: Typographic bounds of the range.
+    public func typographicBounds(in textRange: NSTextRange) -> CGRect? {
+        textSegmentFrame(in: textRange, type: .standard, options: [.upstreamAffinity, .rangeNotRequired])
+    }
 
     ///  A text segment is both logically and visually contiguous portion of the text content inside a line fragment.
     public func textSegmentFrame(at location: NSTextLocation, type: NSTextLayoutManager.SegmentType, options: SegmentOptions = [.upstreamAffinity]) -> CGRect? {

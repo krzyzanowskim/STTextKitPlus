@@ -90,7 +90,7 @@ public extension NSTextContentManager {
             precondition(range.isEmpty == false)
         }
 
-        if range != nil, range?.isEmpty == true {
+        if let range, range.isEmpty {
             return nil
         }
 
