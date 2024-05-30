@@ -17,10 +17,12 @@ NSRange(_ textLocation: NSTextLocation, in textContentManager: NSTextContentMana
 
 ### NSTextRange Additions
 
+```swift
 NSTextRange(_ nsRange: NSRange, in textContentManager: NSTextContentManager)
 
 func length(in textContentManager: NSTextContentManager) -> Int
 func clamped(to textRange: NSTextRange) -> NSTextRange?
+```
 
 ### NSTextContentManager Additions
 
