@@ -90,6 +90,16 @@ public extension NSTextContentManager {
             return nil
         }
 
+        // fast path
+        if let textContentStorage = self as? NSTextContentStorage {
+            if let range {
+                return textContentStorage.textStorage?.attributedSubstring(from: NSRange(range, in: self))
+            } else {
+                return textContentStorage.textStorage
+            }
+        }
+
+        // slow path
         let result = NSMutableAttributedString()
         result.beginEditing()
         enumerateTextElements(from: range?.location) { textElement in
