@@ -35,7 +35,30 @@ import UIKit
 #endif
 
 extension NSTextLayoutManager {
-    
+
+    /// Extra line fragment.
+    ///
+    /// Only valid when ``state`` greater than NSTextLayoutFragment.State.estimatedUsageBounds
+    @nonobjc public func extraTextLineFragment() -> NSTextLineFragment? {
+        var extraLineFragment: NSTextLineFragment?
+        enumerateTextLayoutFragments(from: textContentManager?.documentRange.endLocation, options: .reverse) { textLayoutFragment in
+            let textLineFragments = textLayoutFragment.textLineFragments
+            if textLayoutFragment.state.rawValue > NSTextLayoutFragment.State.estimatedUsageBounds.rawValue,
+               textLineFragments.count > 1, let lastTextLineFragment = textLineFragments.last,
+               lastTextLineFragment.characterRange.location == 0
+            {
+                extraLineFragment = lastTextLineFragment
+            }
+            return false
+        }
+        return extraLineFragment
+    }
+
+}
+
+
+extension NSTextLayoutManager {
+
     public func textLineFragment(at location: NSTextLocation) -> NSTextLineFragment? {
         textLayoutFragment(for: location)?.textLineFragment(at: location)
     }
