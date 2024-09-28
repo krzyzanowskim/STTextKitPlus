@@ -36,6 +36,14 @@ import UIKit
 
 extension NSTextLineFragment {
 
+    /// Whether the line fragment is for the extra line fragment at the end of a document.
+    ///
+    /// The layout manager uses the extra line fragment when the last character in a document causes a line or paragraph break. This extra line fragment has no corresponding glyph.
+    public var isExtraLineFragment: Bool {
+        // textLineFragment.characterRange.isEmpty the extra line fragment at the end of a document.
+        characterRange.isEmpty
+    }
+
     /// Returns a text range inside privided textLayoutFragment.
     ///
     /// Returned range is relative to the document range origin.

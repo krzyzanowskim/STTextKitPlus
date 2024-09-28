@@ -35,7 +35,14 @@ import UIKit
 #endif
 
 extension NSTextLayoutFragment {
-    
+
+    /// Whether the layout fragment is for the extra line fragment at the end of a document.
+    ///
+    /// The layout manager uses the extra line fragment when the last character in a document causes a line or paragraph break. This extra line fragment has no corresponding glyph.
+    public var isExtraLineFragment: Bool {
+        textLineFragments.contains(where: \.isExtraLineFragment)
+    }
+
     public func textLineFragment(at location: NSTextLocation, in textContentManager: NSTextContentManager? = nil) -> NSTextLineFragment? {
         guard let textContentManager = textContentManager ?? textLayoutManager?.textContentManager else {
             assertionFailure()

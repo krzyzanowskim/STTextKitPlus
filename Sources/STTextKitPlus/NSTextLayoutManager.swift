@@ -36,22 +36,35 @@ import UIKit
 
 extension NSTextLayoutManager {
 
-    /// Extra line fragment.
+    /// Extra line layout fragment.
     ///
     /// Only valid when ``state`` greater than NSTextLayoutFragment.State.estimatedUsageBounds
-    @nonobjc public func extraTextLineFragment() -> NSTextLineFragment? {
-        var extraLineFragment: NSTextLineFragment?
-        enumerateTextLayoutFragments(from: textContentManager?.documentRange.endLocation, options: .reverse) { textLayoutFragment in
-            let textLineFragments = textLayoutFragment.textLineFragments
+    @nonobjc public func extraLineTextLayoutFragment() -> NSTextLayoutFragment? {
+        var extraTextLayoutFragment: NSTextLayoutFragment?
+        enumerateTextLayoutFragments(from: nil, options: .reverse) { textLayoutFragment in
             if textLayoutFragment.state.rawValue > NSTextLayoutFragment.State.estimatedUsageBounds.rawValue,
-               textLineFragments.count > 1, let lastTextLineFragment = textLineFragments.last,
-               lastTextLineFragment.characterRange.location == 0
+               textLayoutFragment.isExtraLineFragment
             {
-                extraLineFragment = lastTextLineFragment
+                extraTextLayoutFragment = textLayoutFragment
             }
             return false
         }
-        return extraLineFragment
+        return extraTextLayoutFragment
+    }
+
+    /// Extra line fragment.
+    ///
+    /// Only valid when ``state`` greater than NSTextLayoutFragment.State.estimatedUsageBounds
+    @nonobjc public func extraLineTextLineFragment() -> NSTextLineFragment? {
+        if let textLayoutFragment = extraLineTextLayoutFragment() {
+            let textLineFragments = textLayoutFragment.textLineFragments
+            if textLineFragments.count > 1, let lastTextLineFragment = textLineFragments.last,
+               lastTextLineFragment.isExtraLineFragment
+            {
+                return lastTextLineFragment
+            }
+        }
+        return nil
     }
 
 }

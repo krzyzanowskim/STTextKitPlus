@@ -41,7 +41,8 @@ func attributedString(in range: NSTextRange?) -> NSAttributedString?
 func textLineFragment(at location: NSTextLocation) -> NSTextLineFragment?
 func textLineFragment(at point: CGPoint) -> NSTextLineFragment?
 
-func extraTextLineFragment() -> NSTextLineFragment?
+func extraLineTextLayoutFragment() -> NSTextLayoutFragment?
+func extraLineTextLineFragment() -> NSTextLineFragment?
 
 func location(interactingAt point: CGPoint, inContainerAt containerLocation: NSTextLocation) -> NSTextLocation?
 
@@ -59,6 +60,8 @@ var insertionPointSelections: [NSTextSelection]
 ### NSTextLayoutFragment Additions
 
 ```swift
+var isExtraLineFragment: Bool
+
 func textLineFragment(at location: NSTextLocation, in textContentManager: NSTextContentManager? = nil) -> NSTextLineFragment?
 func textLineFragment(at location: CGPoint, in textContentManager: NSTextContentManager? = nil) -> NSTextLineFragment?
 ```
