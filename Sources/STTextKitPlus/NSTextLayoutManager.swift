@@ -127,6 +127,8 @@ extension NSTextLayoutManager {
     }
 
     /// A text segment is both logically and visually contiguous portion of the text content inside a line fragment.
+    /// Text segment is a logically and visually contiguous portion of the text content inside a line fragment that you specify with a single text range.
+    /// The framework enumerates the segments visually from left to right.
     public func textSegmentFrame(in textRange: NSTextRange, type: NSTextLayoutManager.SegmentType, options: SegmentOptions = [.upstreamAffinity, .rangeNotRequired]) -> CGRect? {
         var result: CGRect? = nil
         // .upstreamAffinity: When specified, the segment is placed based on the upstream affinity for an empty range.
@@ -134,7 +136,9 @@ extension NSTextLayoutManager {
         // In the context of text editing, upstream affinity means that the selection is biased towards the preceding or earlier portion of the text,
         // while downstream affinity means that the selection is biased towards the following or later portion of the text. The affinity helps determine
         // the behavior of the text selection when the text is modified or manipulated.
-        enumerateTextSegments(in: textRange, type: type, options: options) { _, textSegmentFrame, _, _ -> Bool in
+
+        // FB15131180: Extra line fragment frame is not correct, that affects enumerateTextSegments as well.
+        enumerateTextSegments(in: textRange, type: type, options: options) { textSegmentRange, textSegmentFrame, baselinePosition, textContainer -> Bool in
             result = result?.union(textSegmentFrame) ?? textSegmentFrame
             return true
         }
