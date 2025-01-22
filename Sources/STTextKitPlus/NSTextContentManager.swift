@@ -165,4 +165,38 @@ public extension NSTextContentManager {
 
         return result
     }
+    
+    /// Returns an array of text elements that intersect with the range you specify.
+    /// - Parameter range: An NSTextRange that describes the range of text to process.
+    /// - Returns: An array of NSTextElement.
+    ///
+    /// This method can return a set of elements that don’t fill the entire range if the entire range isn’t synchronously available. Uses `enumerateTextElements(from:options:using:)` to fill the array.
+    ///
+    /// This is working implementation, in contrary to buggy `textElements(for:)` (FB10019859)
+    func textElementsNotBuggy(for range: NSTextRange) -> [NSTextElement] {
+        var elements: [NSTextElement] = []
+
+        if range.location == documentRange.endLocation {
+            // last element is technically beyond the textElement.endLocation
+            // but still.
+            enumerateTextElements(from: range.endLocation, options: .reverse) { textElement in
+                elements.append(textElement)
+                return false
+            }
+        } else {
+            enumerateTextElements(from: range.location, options: []) { textElement in
+                var shouldCountinue = true
+                if let elementRange = textElement.elementRange {
+                    if range.intersects(elementRange) || elementRange.contains(range.location) {
+                        elements.append(textElement)
+                    } else {
+                        shouldCountinue = false
+                    }
+                }
+
+                return shouldCountinue
+            }
+        }
+        return elements
+    }
 }
