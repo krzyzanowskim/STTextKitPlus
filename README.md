@@ -48,6 +48,7 @@ func location(interactingAt point: CGPoint, inContainerAt containerLocation: NST
 
 func textSegmentFrame(at location: NSTextLocation, type: NSTextLayoutManager.SegmentType, options: SegmentOptions = [.upstreamAffinity]) -> CGRect?
 func textSegmentFrame(in textRange: NSTextRange, type: NSTextLayoutManager.SegmentType, options: SegmentOptions = [.upstreamAffinity, .rangeNotRequired]) -> CGRect?
+func textSegmentFrames(in textRange: NSTextRange, type: NSTextLayoutManager.SegmentType, options: SegmentOptions = [.upstreamAffinity, .rangeNotRequired]) -> [CGRect]
 
 func typographicBounds(in textRange: NSTextRange) -> CGRect?
 

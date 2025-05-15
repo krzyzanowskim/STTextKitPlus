@@ -117,6 +117,8 @@ extension NSTextLayoutManager {
     /// Typographic bounds of the range.
     /// - Parameter textRange: The range.
     /// - Returns: Typographic bounds of the range.
+    ///
+    /// Returns a union of each segment frame in the range, which may be larger than the area needed to layout the range.
     public func typographicBounds(in textRange: NSTextRange) -> CGRect? {
         textSegmentFrame(in: textRange, type: .standard, options: [.upstreamAffinity, .rangeNotRequired])
     }
@@ -140,6 +142,16 @@ extension NSTextLayoutManager {
         // FB15131180: Extra line fragment frame is not correct, that affects enumerateTextSegments as well.
         enumerateTextSegments(in: textRange, type: type, options: options) { textSegmentRange, textSegmentFrame, baselinePosition, textContainer -> Bool in
             result = result?.union(textSegmentFrame) ?? textSegmentFrame
+            return true
+        }
+        return result
+    }
+
+    /// Enumerates text segments in the text range you provide.
+    public func textSegmentFrames(in textRange: NSTextRange, type: NSTextLayoutManager.SegmentType, options: SegmentOptions = [.upstreamAffinity, .rangeNotRequired]) -> [CGRect] {
+        var result: [CGRect] = []
+        enumerateTextSegments(in: textRange, type: type, options: options) { textSegmentRange, textSegmentFrame, baselinePosition, textContainer -> Bool in
+            result.append(textSegmentFrame)
             return true
         }
         return result
