@@ -87,10 +87,15 @@ extension NSTextLayoutManager {
     /// Returns a location of text produced by a tap or click at the point you specify.
     /// - Parameters:
     ///   - point: A CGPoint that represents the location of the tap or click.
-    ///   - containerLocation: A NSTextLocation that describes the contasiner location.
+    ///   - containerLocation: A NSTextLocation that describes the container location.
     /// - Returns: A location
     public func location(interactingAt point: CGPoint, inContainerAt containerLocation: NSTextLocation) -> NSTextLocation? {
         guard let lineFragmentRange = lineFragmentRange(for: point, inContainerAt: containerLocation) else {
+            return nil
+        }
+
+        // If point is outside the frame?
+        if let layoutFragmentFrame = textLayoutFragment(for: point)?.layoutFragmentFrame, !layoutFragmentFrame.contains(point) {
             return nil
         }
 
