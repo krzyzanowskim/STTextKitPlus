@@ -94,19 +94,31 @@ extension NSTextLayoutManager {
         caretLocation(interactingAt: point, inContainerAt: containerLocation)
     }
 
+    public struct CaretLocationOptions : OptionSet, @unchecked Sendable {
+        public var rawValue: UInt
+        public init(rawValue: UInt) {
+            self.rawValue = rawValue
+        }
+
+        /// Allow point outside text layout fragment frame
+        public static var allowOutside = CaretLocationOptions(rawValue: 1 << 0)
+    }
+
     /// Returns a location of text produced by a tap or click at the point you specify.
     /// - Parameters:
     ///   - point: A CGPoint that represents the location of the tap or click.
     ///   - containerLocation: A NSTextLocation that describes the container location.
     /// - Returns: A location
-    public func caretLocation(interactingAt point: CGPoint, inContainerAt containerLocation: NSTextLocation) -> NSTextLocation? {
+    public func caretLocation(interactingAt point: CGPoint, options: CaretLocationOptions = [], inContainerAt containerLocation: NSTextLocation) -> NSTextLocation? {
         guard let lineFragmentRange = lineFragmentRange(for: point, inContainerAt: containerLocation) else {
             return nil
         }
 
-        // If point is outside the frame?
-        if let layoutFragmentFrame = textLayoutFragment(for: point)?.layoutFragmentFrame, !layoutFragmentFrame.contains(point) {
-            return nil
+        if !options.contains(.allowOutside) {
+            // Is point outside the frame?
+            if let layoutFragmentFrame = textLayoutFragment(for: point)?.layoutFragmentFrame, !layoutFragmentFrame.contains(point) {
+                return nil
+            }
         }
 
         var distance: CGFloat = CGFloat.infinity
