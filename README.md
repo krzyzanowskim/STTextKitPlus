@@ -44,7 +44,7 @@ func textLineFragment(at point: CGPoint) -> NSTextLineFragment?
 func extraLineTextLayoutFragment() -> NSTextLayoutFragment?
 func extraLineTextLineFragment() -> NSTextLineFragment?
 
-func location(interactingAt point: CGPoint, inContainerAt containerLocation: NSTextLocation) -> NSTextLocation?
+func caretLocation(interactingAt point: CGPoint, inContainerAt containerLocation: NSTextLocation) -> NSTextLocation?
 
 func textSegmentFrame(at location: NSTextLocation, type: NSTextLayoutManager.SegmentType, options: SegmentOptions = [.upstreamAffinity]) -> CGRect?
 func textSegmentFrame(in textRange: NSTextRange, type: NSTextLayoutManager.SegmentType, options: SegmentOptions = [.upstreamAffinity, .rangeNotRequired]) -> CGRect?

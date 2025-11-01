@@ -89,9 +89,9 @@ extension NSTextLayoutManager {
     ///   - point: A CGPoint that represents the location of the tap or click.
     ///   - containerLocation: A NSTextLocation that describes the container location.
     /// - Returns: A location
-    @available(*, deprecated, renamed: "caretOffset(interactingAt:inContainerAt:)")
+    @available(*, deprecated, renamed: "caretLocation(interactingAt:inContainerAt:)")
     public func location(interactingAt point: CGPoint, inContainerAt containerLocation: NSTextLocation) -> NSTextLocation? {
-        caretOffset(interactingAt: point, inContainerAt: containerLocation)
+        caretLocation(interactingAt: point, inContainerAt: containerLocation)
     }
 
     /// Returns a location of text produced by a tap or click at the point you specify.
@@ -99,7 +99,7 @@ extension NSTextLayoutManager {
     ///   - point: A CGPoint that represents the location of the tap or click.
     ///   - containerLocation: A NSTextLocation that describes the container location.
     /// - Returns: A location
-    public func caretOffset(interactingAt point: CGPoint, inContainerAt containerLocation: NSTextLocation) -> NSTextLocation? {
+    public func caretLocation(interactingAt point: CGPoint, inContainerAt containerLocation: NSTextLocation) -> NSTextLocation? {
         guard let lineFragmentRange = lineFragmentRange(for: point, inContainerAt: containerLocation) else {
             return nil
         }
